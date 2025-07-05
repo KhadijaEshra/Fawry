@@ -28,7 +28,7 @@ public class CheckoutService {
         double total = subtotal + shippingFee;
 
         if (!customer.canAfford(total)) {
-            System.out.println("❌ Cannot checkout: Insufficient balance.");
+            System.out.println("Cannot checkout: Insufficient balance.");
             return;
         }
 
