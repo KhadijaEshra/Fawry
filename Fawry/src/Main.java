@@ -16,9 +16,7 @@ public class Main {
 
         cart.addProduct(cheese, 2);
         cart.addProduct(biscuits, 1);
-        cart.addProduct(tv, 1);
-        cart.addProduct(scratchCard, 2);
-
         CheckoutService.checkout(customer, cart);
+
     }
 }
