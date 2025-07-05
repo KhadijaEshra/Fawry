@@ -23,7 +23,7 @@ public class CheckoutService {
             totalWeight += item.getWeight();
         }
 
-        final double SHIPPING_RATE_PER_KG = 20.0;
+        final double SHIPPING_RATE_PER_KG = 30.0;
         double shippingFee = totalWeight * SHIPPING_RATE_PER_KG;
         double total = subtotal + shippingFee;
 
@@ -34,13 +34,30 @@ public class CheckoutService {
 
         if (!shippableItems.isEmpty()) {
             System.out.println("** Shipment notice **");
-            Map<String, Integer> shippingSummary = new HashMap<>();
+
+            Map<String, Integer> shippingSummary = new LinkedHashMap<>();
+
             for (Shippable item : shippableItems) {
-                shippingSummary.put(item.getName(), shippingSummary.getOrDefault(item.getName(), 0) + 1);
+                String name = item.getName();
+                shippingSummary.put(name, shippingSummary.getOrDefault(name, 0) + 1);
             }
+
             for (Map.Entry<String, Integer> entry : shippingSummary.entrySet()) {
-                System.out.println(entry.getValue() + "x " + entry.getKey());
+                String name = entry.getKey();
+                int quantity = entry.getValue();
+
+                double singleWeight = 0.0;
+                for (Shippable item : shippableItems) {
+                    if (item.getName().equals(name)) {
+                        singleWeight = item.getWeight();
+                        break;
+                    }
+                }
+
+                int totalWeightGrams = (int) (singleWeight * quantity * 1000);
+                System.out.println(quantity + "x " + name + " " + totalWeightGrams + "g");
             }
+
             System.out.printf("Total package weight %.1fkg\n", totalWeight);
         }
 
